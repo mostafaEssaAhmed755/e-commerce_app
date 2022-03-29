@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Contracts\BrandContract;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\StoreBrandRequest;
 use Illuminate\Http\Request;
 
-class BrandController extends Controller
+class BrandController extends BaseController
 {
+    protected $brandRepository;
+
+    public function __construct(BrandContract $brandRepository)
+    {
+        $this->brandRepository = $brandRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,11 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brands = $this->brandRepository->listBrands();
+
+        $this->setPageTitle('Brands', 'List of all brands');
+
+        return view('admin.brands.index', compact('brands'));
     }
 
     /**
@@ -24,7 +37,8 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        $this->setPageTitle('Brands', 'Create Brand');
+        return view('admin.brands.create');
     }
 
     /**
@@ -33,9 +47,17 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBrandRequest $request)
     {
-        //
+        $param = $request->except('_token');
+
+        $brand = $this->brandRepository->createBrand($param);
+
+        if (!$brand) {
+            return $this->responseRedirectBack('Error occurred while creating brand.', 'error', true, true);
+        }
+        return $this->responseRedirect('admin.brands.index', 'Brand added successfully' ,'success',false, false);
+
     }
 
     /**
@@ -57,7 +79,11 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        //
+        $brand = $this->brandRepository->findBrandById($id);
+
+        $this->setPageTitle('Brands', 'Edit Brand : '.$brand->name);
+
+        return view('admin.brands.edit', compact('brand'));
     }
 
     /**
@@ -69,7 +95,7 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
