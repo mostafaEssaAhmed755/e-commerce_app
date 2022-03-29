@@ -15,6 +15,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'],fun
 
         Route::resource('categories', 'CategoryController')->except('show');
 
-        Route::resource('attributes', 'attributeController')->except('show');
+        Route::resource('attributes', 'AttributeController')->except('show');
+
+        Route::resource('attributesValues', 'AttributeValueController')->except(['index', 'edit']);
+
+        Route::resource('brands','BrandController');
+
     });
 });

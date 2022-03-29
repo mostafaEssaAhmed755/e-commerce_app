@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="values">
-                    <h3>Option Values</h3>
+                    <attribute-values :attributeid="{{ $attribute->id }}"></attribute-values>
                 </div>
             </div>
         </div>
@@ -106,5 +106,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('backend/js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 @endpush
