@@ -77,7 +77,7 @@ class BrandController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $brand = $this->brandRepository->findBrandById($id);
 
@@ -93,8 +93,16 @@ class BrandController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreBrandRequest $request,int $id)
     {
+        $params = $request->except('_token');
+
+        $brand = $this->brandRepository->updateBrand($params, $id);
+
+        if (!$brand) {
+            return $this->responseRedirectBack('Error occurred while updating brand.', 'error', true, true);
+        }
+        return $this->responseRedirectBack('Brand updated successfully' ,'success',false, false);
 
     }
 
@@ -104,8 +112,13 @@ class BrandController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $brand = $this->brandRepository->deleteBrand($id);
+        if (!$brand) {
+            return $this->responseRedirectBack('Error occurred while deleting brand.', 'error', true, true);
+        }
+        return $this->responseRedirect('admin.brands.index', 'Brand deleted successfully' ,'success',false, false);
+
     }
 }

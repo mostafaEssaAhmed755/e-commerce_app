@@ -29,6 +29,7 @@ if (token) {
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('attribute-values', require('./components/AttributeValues.vue').default);
+Vue.component('product-attributes', require('./components/ProductAttributes.vue').default);
 
 import VueSwal from 'vue-swal';
 

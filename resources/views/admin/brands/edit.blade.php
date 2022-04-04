@@ -13,13 +13,13 @@
         <div class="col-md-8 mx-auto">
             <div class="tile">
                 <h3 class="tile-title">{{ $subTitle }}</h3>
-                <form action="{{ route('admin.brands.update') }}" method="POST" role="form" enctype="multipart/form-data">
+                <form action="{{ route('admin.brands.update',$brand->id) }}" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="name">Name <span class="m-l-5 text-danger"> *</span></label>
                             <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name" value="{{ old('name', $brand->name) }}"/>
-                            <input type="hidden" name="id" value="{{ $brand->id }}">
                             @error('name') {{ $message }} @enderror
                         </div>
                         <div class="form-group">

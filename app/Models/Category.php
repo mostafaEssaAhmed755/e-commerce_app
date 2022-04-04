@@ -38,4 +38,11 @@ class Category extends Model
     {
         static::addGlobalScope(new CategoryScope);
     }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

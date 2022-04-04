@@ -27,4 +27,9 @@ class Brand extends Model
         $this->attributes['name'] = $value;
         $this->attributes['slug'] =  strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $value));
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

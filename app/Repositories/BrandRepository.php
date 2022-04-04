@@ -68,7 +68,7 @@ class BrandRepository extends BaseRepository implements BrandContract
 
             return $brand;
         } catch (QueryException $exception) {
-            throw new InvalidArgumentException($exception);
+            throw new InvalidArgumentException($exception->getMessage());
         }
     }
 
@@ -81,6 +81,7 @@ class BrandRepository extends BaseRepository implements BrandContract
         $brand = $this->findBrandById($id);
 
         $collection = collect($params)->except('_token');
+        $merge = $collection;
 
         if ($collection->has('logo') && ($params['logo'] instanceof UploadedFile)) {
             if ($brand->logo != null) {
@@ -88,13 +89,14 @@ class BrandRepository extends BaseRepository implements BrandContract
             }
 
             $logo = $this->uploadOne($params['logo'] , 'brands');
+            $merge = $collection->merge(compact('logo'));
         }
-
-        $merge = $collection->merge(compact('logo'));
 
         $brand->update($merge->all());
 
         $brand->save();
+
+        return $brand;
 
     }
 
@@ -107,7 +109,7 @@ class BrandRepository extends BaseRepository implements BrandContract
         $brand = $this->findBrandById($id);
 
         if ($brand->logo != null) {
-            $this->deleteOne($brand);
+             $this->deleteOne($brand->logo);
         }
 
         $brand->delete();

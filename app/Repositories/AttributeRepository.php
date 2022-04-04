@@ -10,7 +10,6 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 class AttributeRepository extends BaseRepository implements AttributeContract
 {
-    protected $model;
 
     public function __construct(Attribute $model)
     {
@@ -61,7 +60,7 @@ class AttributeRepository extends BaseRepository implements AttributeContract
             return $attribute;
 
         } catch (QueryException $exception) {
-            throw new InvalidArgumentException($exception);
+            throw new InvalidArgumentException($exception->getMessage());
         }
     }
 
