@@ -27,6 +27,12 @@
             </a>
         </li>
         <li>
+            <a class="app-menu__item {{ Request::is('admin/orders/*') || Request::is('admin/orders') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+                <i class="app-menu__icon fa fa-bar-chart"></i>
+                <span class="app-menu__label">Orders</span>
+            </a>
+        </li>
+        <li>
             <a class="app-menu__item {{ Request::is('admin/attributes/*') || Request::is('admin/attributes') ? 'active' : '' }}" href="{{ route('admin.attributes.index') }}">
                 <i class="app-menu__icon fa fa-th"></i>
                 <span class="app-menu__label">Attributes</span>

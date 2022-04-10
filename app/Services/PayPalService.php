@@ -1,19 +1,18 @@
 <?php
-
 namespace App\Services;
 
-use PayPal\Rest\ApiContext;
-use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\Payer;
 use PayPal\Api\Item;
-use PayPal\Api\ItemList;
 use Mockery\Exception;
 use PayPal\Api\Amount;
 use PayPal\Api\Payment;
 use PayPal\Api\Details;
+use PayPal\Api\ItemList;
+use PayPal\Rest\ApiContext;
 use PayPal\Api\Transaction;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\PaymentExecution;
+use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Exception\PayPalConnectionException;
 
 class PayPalService
@@ -22,11 +21,11 @@ class PayPalService
 
     public function __construct()
     {
-        if (config('settings.paypal_client_id') == ' ' || config('settings.paypal_secret_id') == ' ') {
+        if (config('settings.paypal_client_id') == '' || config('settings.paypal_secret_id') == '') {
             return redirect()->back()->with('error', 'No PayPal settings found.');
         }
 
-        $this->payPal =  new ApiContext(
+        $this->payPal = new ApiContext(
             new OAuthTokenCredential(
                 config('settings.paypal_client_id'),
                 config('settings.paypal_secret_id')
@@ -39,24 +38,25 @@ class PayPalService
         //$this->payPal->setConfig(
         //    array('mode'  =>  'live')
         //);
-
     }
 
     public function processPayment($order)
     {
+        // Add shipping amount if you want to charge for shipping
         $shipping = sprintf('%0.2f', 0);
+        // Add any tax amount if you want to apply any tax rule
         $tax = sprintf('%0.2f', 0);
 
+        // Create a new instance of Payer class
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
 
-        $items = [];
-
+        // Adding items to the list
+        $items = array();
         foreach ($order->items as $item)
         {
             $orderItems[$item->id] = new Item();
-            $orderItems[$item->id]
-                ->setName($item->product->name)
+            $orderItems[$item->id]->setName($item->product->name)
                 ->setCurrency(config('settings.currency_code'))
                 ->setQuantity($item->quantity)
                 ->setPrice(sprintf('%0.2f', $item->price));
@@ -67,39 +67,46 @@ class PayPalService
         $itemList = new ItemList();
         $itemList->setItems($items);
 
+        // Setting Shipping Details
         $details = new Details();
         $details->setShipping($shipping)
             ->setTax($tax)
             ->setSubtotal(sprintf('%0.2f', $order->grand_total));
 
+        // Create chargeable amount
         $amount = new Amount();
         $amount->setCurrency(config('settings.currency_code'))
             ->setTotal(sprintf('%0.2f', $order->grand_total))
             ->setDetails($details);
 
+        // Creating a transaction
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($itemList)
             ->setDescription($order->user->full_name)
             ->setInvoiceNumber($order->order_number);
 
+        // Setting up redirection urls
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl(route('checkout.payment.complete'))
             ->setCancelUrl(route('checkout.index'));
 
+        // Creating payment instance
         $payment = new Payment();
-        $payment->setIntent('sale')
+        $payment->setIntent("sale")
             ->setPayer($payer)
+            ->setRedirectUrls($redirectUrls)
             ->setTransactions(array($transaction));
 
         try {
-            $payment->create($this->payPal);
-        } catch (PayPalConnectionException $exception) {
-            echo $exception->getCode();
-            echo $exception->getData();
 
+            $payment->create($this->payPal);
+
+        } catch (PayPalConnectionException $exception) {
+            echo $exception->getCode(); // Prints the Error Code
+            echo $exception->getData(); // Prints the detailed error message
             exit(1);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             exit(1);
         }
@@ -107,7 +114,7 @@ class PayPalService
         $approvalUrl = $payment->getApprovalLink();
 
         header("Location: {$approvalUrl}");
-        exit();
+        exit;
     }
 
     public function completePayment($paymentId, $payerId)

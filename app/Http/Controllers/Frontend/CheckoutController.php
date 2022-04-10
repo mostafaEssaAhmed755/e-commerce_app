@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\OrderContract;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Services\PayPalService;
 
@@ -47,7 +48,7 @@ class CheckoutController extends Controller
         $order->payment_method = 'PayPal -'.$status['salesId'];
         $order->save();
 
-        Cart::clear();
-        return view('site.pages.success', compact('order'));
+        \Cart::clear();
+        return view('frontend.pages.success', compact('order'));
     }
 }

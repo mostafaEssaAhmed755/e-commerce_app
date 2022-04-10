@@ -34,7 +34,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'],fun
 
         Route::resource('products','ProductController');
 
-
+        Route::group(['prefix' => 'orders'], function () {
+            Route::get('/', 'OrderController@index')->name('orders.index');
+            Route::get('/{order}/show', 'OrderController@show')->name('orders.show');
+        });
 
     });
 });
