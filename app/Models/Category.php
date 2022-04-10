@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\CategoryScope;
+use TypiCMS\NestableTrait;
 
 class Category extends Model
 {
     use HasFactory;
+    use NestableTrait;
 
     protected $fillable = ['name', 'slug', 'description', 'parent_id', 'featured', 'menu', 'image'];
 

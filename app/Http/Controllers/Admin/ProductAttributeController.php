@@ -47,7 +47,10 @@ class ProductAttributeController extends Controller
             ->first();
 
         if ($productAttribute === null) {
-            $productAttribute = ProductAttribute::create($request->data);
+            $product_id = $id;
+            $params = collect($request)->merge(compact('product_id'))->all();
+
+            $productAttribute = ProductAttribute::create($params);
 
             if ($productAttribute) {
                 return response()->json(['status' => 'success', 'message' => 'Product attribute added successfully.']);
