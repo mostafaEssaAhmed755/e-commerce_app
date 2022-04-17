@@ -104,7 +104,7 @@ class ProductRepository extends BaseRepository implements ProductContract
     {
         $product = $this->findProductById($id);
 
-        $product->delect();
+        $product->delete();
 
         return $product;
     }

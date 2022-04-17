@@ -1,0 +1,8 @@
+{
+    "Products": true,
+    "Categories": true,
+    "Core": true,
+    "Payments": true,
+    "Orders": true,
+    "Customers": true
+}
