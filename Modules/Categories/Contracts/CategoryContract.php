@@ -1,5 +1,5 @@
 <?php
-namespace App\Contracts;
+namespace Modules\Categories\Contracts;
 
 interface CategoryContract
 {
@@ -33,7 +33,7 @@ interface CategoryContract
     /**
      * @return mixed
      */
-    public function treeList($id = null);
+    public function treeList();
 
     /**
     * @param $slug

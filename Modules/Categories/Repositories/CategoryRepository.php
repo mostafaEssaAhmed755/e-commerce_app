@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Repositories;
+namespace Modules\Categories\Repositories;
 
-use App\Models\Category;
+use App\Repositories\BaseRepository;
+use Modules\Categories\Entities\Category;
 use App\Traits\UploadAble;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
-use App\Contracts\CategoryContract;
+use Modules\Categories\Contracts\CategoryContract;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;

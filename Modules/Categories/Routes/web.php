@@ -11,6 +11,9 @@
 |
 */
 
-Route::prefix('categories')->group(function() {
-    Route::get('/', 'CategoriesController@index');
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'],function (){
+    Route::group(['middleware' => ['auth:admin']],function () {
+
+        Route::resource('categories', 'CategoriesController')->except('show');
+    });
 });

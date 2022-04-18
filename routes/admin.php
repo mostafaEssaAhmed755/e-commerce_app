@@ -13,7 +13,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'],fun
         Route::get('settings','SettingController@index')->name('settings');
         Route::post('settings','SettingController@update')->name('settings.update');
 
-        Route::resource('categories', 'CategoryController')->except('show');
+//        Route::resource('categories', 'CategoryController')->except('show');
 
         Route::resource('attributes', 'AttributeController')->except('show');
 

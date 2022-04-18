@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Modules\Categories\Http\Controllers\Admin;
 
-use App\Contracts\CategoryContract;
+use Modules\Categories\Contracts\CategoryContract;
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\StoreCategoryRequest;
+use Modules\Categories\Http\Requests\StoreCategoryRequest;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Support\Renderable;
 
-class CategoryController extends BaseController
+class CategoriesController extends BaseController
 {
     protected $categoryRepository;
 
@@ -18,8 +19,7 @@ class CategoryController extends BaseController
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Renderable
      */
     public function index()
     {
@@ -27,13 +27,12 @@ class CategoryController extends BaseController
 
         $this->setPageTitle('Categories', 'List of all categories');
 
-        return view('admin.categories.index', compact('categories'));
+        return view('categories::admin.index', compact('categories'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Renderable
      */
     public function create()
     {
@@ -41,14 +40,13 @@ class CategoryController extends BaseController
 
         $this->setPageTitle('Categories','Create category');
 
-        return view('admin.categories.create',compact('categories'));
+        return view('categories::admin.create',compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreCategoryRequest $request)
     {
@@ -74,27 +72,25 @@ class CategoryController extends BaseController
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Renderable
      */
     public function edit($id)
     {
-        $currentcategory = $this->categoryRepository->findCategoryById($id);
+        $currentCategory = $this->categoryRepository->findCategoryById($id);
 
-        $categories = $this->categoryRepository->treeList($currentcategory->id);
+        $categories = $this->categoryRepository->treeList($currentCategory->id);
 
-        $this->setPageTitle('Categories', 'Edit Category : '.$currentcategory->name);
+        $this->setPageTitle('Categories', 'Edit Category : '.$currentCategory->name);
 
-        return view('admin.categories.edit', compact('currentcategory', 'categories'));
+        return view('categories::admin.edit', compact('currentCategory', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Renderable
      */
     public function update(StoreCategoryRequest $request, $id)
     {
@@ -108,9 +104,8 @@ class CategoryController extends BaseController
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
