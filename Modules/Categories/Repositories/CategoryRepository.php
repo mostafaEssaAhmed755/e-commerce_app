@@ -16,6 +16,9 @@ class CategoryRepository extends BaseRepository implements CategoryContract
 {
     use UploadAble;
 
+    /**
+     * @return Category
+     */
     public function __construct(Category $model)
     {
         parent::__construct($model);

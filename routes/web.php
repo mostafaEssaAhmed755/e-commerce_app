@@ -18,7 +18,6 @@ Auth::routes();
 
 Route::view('/', 'frontend.pages.homepage');
 
-Route::get('/category/{slug}', 'Frontend\CategoryController@show')->name('category.show');
 Route::get('/product/{slug}', 'Frontend\ProductController@show')->name('product.show');
 
 Route::post('cart/item/{id}/add', 'Frontend\CartController@addToCart')->name('cart.add.item');

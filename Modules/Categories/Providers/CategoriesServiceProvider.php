@@ -2,6 +2,8 @@
 
 namespace Modules\Categories\Providers;
 
+use App\Models\Category;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Categories\Contracts\CategoryContract;
@@ -26,6 +28,17 @@ class CategoriesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        View::composer('frontend.partials.header', function ($view) {
+            $view->with('categories',
+                Category::orderByRaw('-name ASC')
+                    ->where([
+                        ['menu','1']
+                    ])
+                    ->limit(50)
+                    ->get()
+                    ->nest());
+        });
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();

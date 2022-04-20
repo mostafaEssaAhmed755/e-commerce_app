@@ -17,3 +17,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'],fun
         Route::resource('categories', 'CategoriesController')->except('show');
     });
 });
+
+Route::group(['namespace' => 'Frontend', 'as' => 'category.'],function () {
+    Route::get('/category/{slug}', 'CategoriesController@show')->name('show');
+});

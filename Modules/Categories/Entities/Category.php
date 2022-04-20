@@ -24,7 +24,7 @@ class Category extends Model
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
-        $this->attributes['slug'] =  strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $value));
+        $this->attributes['slug'] = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $value));
     }
 
     public function parent()

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -38,6 +39,10 @@ class Product extends Model
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] =  strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $value));
+    }
+    public function getNameAttribute()
+    {
+        return Str::limit($this->attributes['name'], 70,'...');
     }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

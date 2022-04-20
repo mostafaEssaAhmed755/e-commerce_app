@@ -26,7 +26,6 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('frontend.partials.header', function ($view) {
-            $view->with('categories', Category::orderByRaw('-name ASC')->get()->nest());
             $view->with('cartCount', \Cart::getContent()->count());
         });
     }

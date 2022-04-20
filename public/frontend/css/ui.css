@@ -1,5 +1,5 @@
 /* ========================
-UIkit bootstrap-ecommerce.com 
+UIkit bootstrap-ecommerce.com
 ===================== */
 /* ==================== INCLUDE FONTS ======================= */
 @import url("../fonts/roboto/font.css");
@@ -494,8 +494,8 @@ article:after,
 .lh-lg {
   line-height: 1.6; }
 
-/*! 
- * grid for 24 of 1 
+/*!
+ * grid for 24 of 1
  * made by bootstrap-ecommerce.com
 */
 .col-1-24 {
@@ -1934,7 +1934,12 @@ ul.row, ul.row-sm {
     padding: 15px;
     border-top: 1px solid #eee; }
   .card-product .title {
-    margin-top: 0; }
+    margin-top: 0;
+    color: #51585e;
+  }
+  a.title:hover{
+    color: #0d6efd;
+  }
   .card-product .btn-overlay {
     -webkit-transition: .5s;
     transition: .5s;

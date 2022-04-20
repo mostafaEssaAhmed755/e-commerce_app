@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="main_nav">
             <ul class="navbar-nav">
                 @foreach($categories as $cat)
-                    @foreach($cat->items as $category)
+                    @foreach($cat->items->slice(0,8) as $category)
                         @if ($category->items->count() > 0)
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="{{ route('category.show', $category->slug) }}" id="{{ $category->slug }}"
