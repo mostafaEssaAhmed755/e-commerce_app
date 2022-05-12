@@ -17,6 +17,8 @@ class CategoryScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->with('parent');
+        $builder->with(['parent' => function($query){
+            $query->select(['id','name']);
+        }]);
     }
 }

@@ -1,0 +1,37 @@
+<?php
+
+namespace Modules\Products\Entities;
+
+//use Illuminate\Database\Eloquent\Factories\HasFactory;
+// replace HasFactory to enable Modules structure
+use Modules\Core\Traits\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AttributeValue extends Model
+{
+    use HasFactory;
+
+    /**
+     * @var string
+     */
+    protected $table = 'attribute_values';
+
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'attribute_id', 'value', 'price'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'attribute_id'  =>  'integer',
+    ];
+
+    public function attribute()
+    {
+        return $this->belongsTo(Attribute::class);
+    }
+}

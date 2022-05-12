@@ -56,7 +56,7 @@
                                     <td class="text-center">
                                         <div class="btn-group" role="group" aria-label="Second group">
                                             <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                                            <a href="#" onclick="event.defaultPrevented; document.querySelector('#category-{{ $category->id }}').submit()" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a href="#" onclick="deleteAttributeValue(this);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                             <form id="category-{{ $category->id }}" method="POST" action="{{ route('admin.categories.destroy', $category->id) }}" style="display: none">@csrf @method('DELETE')</form>
                                         </div>
                                     </td>
@@ -71,7 +71,29 @@
     </div>
 @endsection
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/dataTables.bootstrap.min.js') }}"></script>
     <script type="text/javascript">$('#sampleTable').DataTable();</script>
+    <script>
+        $(function (){
+        });
+        function deleteAttributeValue() {
+
+            event.defaultPrevented
+            this.swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this attribute value!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    document.querySelector('#category-{{ $category->id }}').submit()
+                } else {
+                    this.$swal("Your option value not deleted!");
+                }
+            });
+        }
+    </script>
 @endpush

@@ -2,10 +2,9 @@
 
 namespace Modules\Categories\Repositories;
 
-use App\Repositories\BaseRepository;
+use Modules\Core\Repositories\BaseRepository;
 use Modules\Categories\Entities\Category;
-use App\Traits\UploadAble;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use Modules\Categories\Contracts\CategoryContract;
 use Illuminate\Database\QueryException;
@@ -25,15 +24,23 @@ class CategoryRepository extends BaseRepository implements CategoryContract
         $this->model = $model;
     }
 
+    protected function model(): string
+    {
+        return Category::class;
+    }
+
     /**
      * @param string $order
      * @param string $sort
      * @param array $columns
      * @return mixed
      */
-    public function listCategories(string $order = 'id', string $sort = 'desc', array $columns = ['*'])
+    public function listCategories(string $order = 'name', string $sort = 'desc', array $columns = ['*'])
     {
-        return $this->all($columns, $order, $sort);
+        return $this->model->query()
+            ->select($columns)
+            ->Parent()
+            ->orderBy($order, $sort)->get();
     }
 
     /**

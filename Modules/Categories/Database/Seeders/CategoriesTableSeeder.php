@@ -20,6 +20,6 @@ class CategoriesTableSeeder extends Seeder
             'parent_id'     => null,
             'menu'          => 0,
         ]);
-        Category::factory()->count(10)->create();
+        Category::newFactory()->count(10)->create();
     }
 }

@@ -3,7 +3,7 @@
 namespace Modules\Categories\Http\Controllers\Admin;
 
 use Modules\Categories\Contracts\CategoryContract;
-use App\Http\Controllers\BaseController;
+use Modules\Core\Http\Controllers\BaseController;
 use Modules\Categories\Http\Requests\StoreCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Renderable;

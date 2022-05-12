@@ -11,6 +11,9 @@
 |
 */
 
-Route::prefix('payments')->group(function() {
-    Route::get('/', 'PaymentsController@index');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/checkout', 'Frontend\CheckoutController@getCheckout')->name('checkout.index');
+    Route::post('/checkout/order', 'Frontend\CheckoutController@placeOrder')->name('checkout.place.order');
+    Route::get('checkout/payment/complete', 'Frontend\CheckoutController@complete')->name('checkout.payment.complete');
+    Route::get('account/orders', 'Frontend\AccountController@getOrders')->name('account.orders');
 });

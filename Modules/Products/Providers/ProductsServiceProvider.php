@@ -5,6 +5,7 @@ namespace Modules\Products\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
+
 class ProductsServiceProvider extends ServiceProvider
 {
     /**
@@ -38,6 +39,9 @@ class ProductsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        //
+        $this->app->register(ProductsRepositoryServiceProvider::class);
+        $this->app->register(ProductsViewComposerServiceProvider::class);
     }
 
     /**
@@ -108,5 +112,13 @@ class ProductsServiceProvider extends ServiceProvider
             }
         }
         return $paths;
+    }
+
+    public function registerRepositories()
+    {
+        foreach ($this->repositories as $interface => $implementation)
+        {
+            $this->app->bind($interface, $implementation);
+        }
     }
 }

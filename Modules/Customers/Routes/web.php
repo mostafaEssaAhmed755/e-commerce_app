@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('customers')->group(function() {
-    Route::get('/', 'CustomersController@index');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('account/orders', 'Frontend\AccountController@getOrders')->name('account.orders');
 });

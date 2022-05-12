@@ -2,16 +2,22 @@
 
 namespace Modules\Categories\Entities;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+//use Illuminate\Database\Eloquent\Factories\HasFactory;
+// replace HasFactory to enable Modules structure
+use Modules\Core\Traits\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Categories\Entities\Scopes\CategoryScope;
-use App\Models\Product;
+use Modules\Products\Entities\Product;
 use TypiCMS\NestableTrait;
 
 class Category extends Model
 {
     use HasFactory;
     use NestableTrait;
+
+    protected $moduleName = 'Categories';
+
+    protected $table = 'categories';
 
     protected $fillable = ['name', 'slug', 'description', 'parent_id', 'featured', 'menu', 'image'];
 
@@ -39,7 +45,7 @@ class Category extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new CategoryScope);
+        //static::addGlobalScope(new CategoryScope);
     }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -48,4 +54,18 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeParent($query)
+    {
+        $query->with(['parent' => function($q){
+            $q->select(['id','name']);
+        }]);
+    }
+
 }
